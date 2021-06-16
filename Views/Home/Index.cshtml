@@ -1,8 +1,20 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model List<Fails>
+    @{
+        ViewData["Tittle"] = "Home page";
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    }
+    @if(Model.Count() == 0) {
+        <p class="text-center">No se suben Fails de momento :(</p>
+    }else {
+        <div class="row">
+            @foreach (var fails in Model)
+            {
+                <div>
+                    <h2>@fails.titulo</h2>
+                    <h2>Subido Por :  @User.Identity.Name </h2>
+                    <img src="@fails.foto" class="img-fluid"/>
+                    
+                </div>
+            }
+        </div>
+    }
