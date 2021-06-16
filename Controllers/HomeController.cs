@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PC4.Models;
 
@@ -11,22 +12,20 @@ namespace PC4.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+      private readonly FailContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(FailContext context)
         {
-            _logger = logger;
+           _context= context;
         }
 
         public IActionResult Index()
         {
-            return View();
+             var  fails = _context.Fails.Where(x =>x.FechaRegistro.AddDays(10) > DateTime.Now).ToList();
+            return View(fails);
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+       
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
